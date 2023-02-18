@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      
+      .calculator {
+        margin: 50px auto;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+        padding: 10px;
+      }
+      
+      .result {
+        width: 100%;
+        height: 40px;
+        font-size: 24px;
+        margin-bottom: 10px;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+      
+      button {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        border: none;
+        border-radius: 5px;
+        margin: 5px;
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        cursor: pointer;
+      }
+      
+      button.operator {
+        background-color: #f44336;
+        color: #fff;
+      }
+      
+      button.number {
+        background-color: #4CAF50;
+        color: #fff;
+      }
+      
+      button.scientific {
+        background-color: #2196F3;
+        color: #fff;
+      }
+      
+      button.equal {
+        background-color: #e7e7e7;
+        color: #333;
+      }
+      
+      button:hover {
+        background-color: #ddd;
+      }
+      
+      button:active {
+        box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <input type="text" class="result" id="result" readonly>
+      <button class="operator" onclick="clearResult()">C</button>
+      <button class="operator" onclick="backspace()">⌫</button>
+      <button class="operator" onclick="insert('%')">%</button>
+      <button class="scientific" onclick="insert('sin(')">sin</button>
+      <button class="scientific" onclick="insert('cos(')">cos</button>
+      <button class="scientific" onclick="insert('tan(')">tan</button>
+      <button class="number" onclick="insert('7')">7</button>
+      <button class="number" onclick="insert('8')">8</button>
+      <button class="number" onclick="insert('9')">9</button>
+      <button class="operator" onclick="insert('/')">÷</button>
+      <button class="scientific" onclick="insert('sqrt(')">√</button>
+      <button class="scientific" onclick="insert('pow(')">x<sup>y</sup></button>
+      <button class="number" onclick="insert('4')">4</button>
+      <button class="number" onclick="insert('5')">5</button>
+      <button class="number" onclick="insert('6')">6</button>
+      <button class="operator" onclick="insert('*')">×</button>
+      <button class="scientific" onclick="insert('log(')">log</button>
+      <button class="scientific" onclick="insert('exp(')">e<sup>x</sup></button>
+            <button class="scientific" onclick="insert('pi')">π</button>
+      <button class="number" onclick="insert('1')">1</button>
+      <button class="number" onclick="insert('2')">2</button>
+      <button class="number" onclick="insert('3')">3</button>
+      <button class="operator" onclick="insert('-')">-</button>
+      <button class="scientific" onclick="insert('abs(')">|x|</button>
+      <button class="scientific" onclick="insert('round(')">rnd</button>
+      <button class="number" onclick="insert('0')">0</button>
+      <button class="number" onclick="insert('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+      <button class="operator" onclick="insert('+')">+</button>
+    </div>
+    <script>
+      function insert(value) {
+        document.getElementById('result').value += value;
+      }
+
+      function clearResult() {
+        document.getElementById('result').value = '';
+      }
+
+      function backspace() {
+        let result = document.getElementById('result').value;
+        document.getElementById('result').value = result.substring(0, result.length - 1);
+      }
+
+      function calculate() {
+        let result = document.getElementById('result').value;
+        let scientificFunctions = ['sin(', 'cos(', 'tan(', 'sqrt(', 'log(', 'exp(', 'abs(', 'round('];
+        for (let i = 0; i < scientificFunctions.length; i++) {
+          while (result.indexOf(scientificFunctions[i]) !== -1) {
+            let startIndex = result.indexOf(scientificFunctions[i]);
+            let endIndex = result.indexOf(')', startIndex) + 1;
+            let expression = result.substring(startIndex, endIndex);
+            let evaluated = eval(expression);
+            result = result.substring(0, startIndex) + evaluated + result.substring(endIndex);
+          }
+        }
+        document.getElementById('result').value = eval(result);
+      }
+    </script>
+  </body>
+</html>
+
